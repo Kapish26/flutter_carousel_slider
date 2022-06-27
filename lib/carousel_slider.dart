@@ -33,12 +33,15 @@ class CarouselSlider extends StatefulWidget {
 
   final int? itemCount;
 
+  final double heightFactor;
+
   CarouselSlider(
       {required this.items,
       required this.options,
       CarouselController? carouselController,
-      Key? key})
-      : itemBuilder = null,
+      Key? key, this.heightFactor = 1})
+      : assert(heightFactor >=0 && heightFactor <= 1),
+        itemBuilder = null,
         itemCount = items != null ? items.length : 0,
         _carouselController = carouselController != null
             ? carouselController as CarouselControllerImpl
@@ -51,8 +54,9 @@ class CarouselSlider extends StatefulWidget {
       required this.itemBuilder,
       required this.options,
       CarouselController? carouselController,
-      Key? key})
-      : items = null,
+      Key? key, this.heightFactor = 1})
+      : assert(heightFactor >=0 && heightFactor <= 1),
+        items = null,
         _carouselController = carouselController != null
             ? carouselController as CarouselControllerImpl
             : CarouselController() as CarouselControllerImpl,
@@ -339,7 +343,7 @@ class CarouselSliderState extends State<CarouselSlider>
 
             if (widget.options.scrollDirection == Axis.horizontal) {
               return getCenterWrapper(getEnlargeWrapper(child,
-                  height: distortionValue * height * 0.8,
+                  height: distortionValue * height * widget.heightFactor,
                   scale: distortionValue));
             } else {
               return getCenterWrapper(getEnlargeWrapper(child,
